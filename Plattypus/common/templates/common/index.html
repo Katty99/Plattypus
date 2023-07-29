@@ -1,0 +1,95 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="Tooplate">
+
+        <title>Plattypus</title>
+
+        <!-- CSS FILES -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&display=swap" rel="stylesheet">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+        <link href="{% static 'css/tooplate-mini-finance.css' %}" rel="stylesheet">
+    </head>
+
+    <body>
+        <header class="navbar sticky-top flex-md-nowrap">
+            <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <i class="bi-box"></i>
+                    Plattypus
+                </a>
+            </div>
+
+            <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav  ml-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only"></span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}"> About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile_login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile_create' %}">Register</a>
+              </li>
+            </ul>
+        </header>
+
+        <div class="container-fluid">
+            <div class="row">
+                <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+                    <div class="title-group mb-3">
+                        <h1 class="h2 mb-0">Welcome to Plattypus</h1>
+                    </div>
+
+                    <div class="row my-4">
+                        <div class="col-lg-7 col-12">
+                            <!-- Add your logo here -->
+{#                            <img src="{% static 'path_to_your_logo.png' %}" alt="Plattypus Logo" class="img-fluid mb-4">#}
+
+                            <p>
+                                Take charge of your financial future with Plattypus - register now and embark on a journey towards financial prosperity and peace of mind.
+                            </p>
+                        </div>
+
+                        <div class="col-lg-9 col-12">
+                            <div class="detail-box">
+                                <div class="btn-box">
+                                    <a href="{% url 'about' %}" class="btn-1 btn btn-primary me-3">About Us</a>
+                                    <a href="{% url 'profile_create' %}" class="btn-2 btn btn-secondary">Register</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class=" col-lg-10 mx-auto">
+                              <div class="img-box">
+                                <img src="{% static 'images/platypus.png' %}" alt="">
+                              </div>
+                            </div>
+                          </div>
+                </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/apexcharts.min.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+    </body>
+</html>
