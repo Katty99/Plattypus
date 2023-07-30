@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
     <head>
@@ -16,11 +17,11 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&display=swap" rel="stylesheet">
 
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
-        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
 
-        <link href="css/tooplate-mini-finance.css" rel="stylesheet">
+        <link href="{% static 'css/tooplate-mini-finance.css' %}" rel="stylesheet">
 <!--
 
 Tooplate 2135 Mini Finance
@@ -184,7 +185,7 @@ Bootstrap 5 Dashboard Admin Template
                             </li>
 
                             <li>
-                                <a class="dropdown-item" href="edit-profile.html">
+                                <a class="dropdown-item" href="{% url 'profile_edit' pk=user.pk %}">
                                     <i class="bi-gear me-2"></i>
                                     Settings
                                 </a>

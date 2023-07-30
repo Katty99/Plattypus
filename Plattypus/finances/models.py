@@ -1,6 +1,6 @@
 from django.db import models
 
-from Plattypus.account.models import Account
+from Plattypus.account.models import PlattypusUser
 from Plattypus.finances.validators import minimum_income
 
 CURRENCIES = [
@@ -29,7 +29,7 @@ class Income(models.Model):
     currency = models.CharField(choices=CURRENCIES)
     date = models.DateField()
     details = models.CharField(blank=True, null=True)
-    to_profile = models.ForeignKey(Account, on_delete=models.CASCADE)
+    # to_profile = models.ForeignKey(PlattypusUser, on_delete=models.CASCADE)
 
 
 class Expense(models.Model):
@@ -58,4 +58,4 @@ class Expense(models.Model):
     category = models.CharField(choices=EXPENSE_CHOICES)
     date = models.DateField()
     details = models.CharField(blank=True, null=True)
-    to_profile = models.ForeignKey(Account, on_delete=models.CASCADE)
+    # to_profile = models.ForeignKey(PlattypusUser, on_delete=models.CASCADE)

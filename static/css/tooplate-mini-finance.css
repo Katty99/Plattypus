@@ -678,7 +678,7 @@ strong {
 }
 
 .custom-block small {
-  color: var(--p-color);
+  color: var(--heading-color);
   font-size: var(--btn-font-size);
   text-transform: uppercase;
 }

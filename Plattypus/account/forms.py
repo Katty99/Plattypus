@@ -1,55 +1,75 @@
 from django import forms
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import forms as auth_forms, get_user_model
 
-from Plattypus.account.models import Account
+from Plattypus.finances.models import Income
 
-
-class AccountForm(forms.ModelForm):
-    class Meta:
-        model = Account
-        fields = '__all__'
-        labels = {
-            'first_name': 'First Name',
-            'last_name': 'Last Name',
-            'email_address': 'Email Address',
-            'password': 'Password',
-            'birthday': 'Date of Birth',
-            'profile_picture': 'Profile Picture',
-        }
-        widgets = {
-            'first_name': forms.TextInput(attrs={'placeholder': 'First Name'}),
-            'last_name': forms.TextInput(attrs={'placeholder': 'Last Name'}),
-            'email_address': forms.TextInput(attrs={'placeholder': 'Email Address'}),
-            'password': forms.PasswordInput(attrs={'placeholder': 'Password'}),
-            'birthday': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD'}),
-        }
+UserModel = get_user_model()
 
 
-class LoginForm(AuthenticationForm):
+class LoginUserForm(auth_forms.AuthenticationForm):
     email_address = forms.EmailField(widget=forms.TextInput(attrs={"placeholder": "Email Address"}), label='')
     password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "Password"}), label='')
 
-    error_messages = {
-        'invalid_login': _(
-            "Invalid username or password!"
-        ),
-        'inactive': _("This account is inactive."),
-    }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields.pop('username', None)
-
-    field_order = ['email_address', 'password']
-
-
-class DeleteAccountForm(AccountForm):
+class RegisterUserForm(auth_forms.UserCreationForm):
     class Meta:
-        model = Account
-        fields = '__all__'
+        model = UserModel
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'profile_picture']
 
+    def save(self, commit=True):
+        result = super().save(commit)
+        return result
+
+
+class EditProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name in self.fields:
-            self.fields[field_name].widget.attrs['disabled'] = 'disabled'
+
+    class Meta:
+        model = UserModel
+        fields = ['first_name', 'last_name', 'profile_picture', 'email', 'date_of_birth']
+        widgets = {
+            'first_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter first name',
+                }
+            ),
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter last name',
+                }
+            ),
+            'picture': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter URL',
+                }
+            ),
+            'email': forms.EmailInput(
+                attrs={
+                    'placeholder': 'Enter email',
+                }
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'placeholder': 'Enter description',
+                    'rows': 3,
+                },
+            ),
+            'date_of_birth': forms.DateInput(
+                attrs={
+                    'min': '1920-01-01',
+                }
+            )
+        }
+
+
+class DeleteProfileForm(forms.ModelForm):
+    def save(self, commit=True):
+        # Todo: insert incomes and expenses deletion
+        self.instance.delete()
+
+        return self.instance
+
+    class Meta:
+        model = UserModel
+        fields = ()
