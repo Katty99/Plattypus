@@ -1,7 +1,6 @@
 from django.core.validators import MinLengthValidator
 from django.db import models
-
-from Plattypus.account.managers import PlattypusUserManager
+from django.db.models import Sum
 from django.contrib.auth import models as auth_models
 from Plattypus.account.validators import minimum_age_validator
 

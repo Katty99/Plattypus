@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 from Plattypus.account.models import PlattypusUser
 from Plattypus.finances.validators import minimum_income
+
+UserModel = get_user_model()
 
 CURRENCIES = [
     ("BGN", "BGN"),
@@ -16,7 +19,6 @@ CURRENCIES = [
 ]
 
 
-# Create your models here.
 class Income(models.Model):
     INCOME_SOURCES = [
         ("Work", "Work"),
@@ -25,11 +27,19 @@ class Income(models.Model):
         ("Savings", "Savings"),
         ("Donation", "Donation"),
     ]
-    amount = models.FloatField(validators=[minimum_income])
+    amount = models.FloatField()
     currency = models.CharField(choices=CURRENCIES)
     date = models.DateField()
+    source = models.CharField(choices=INCOME_SOURCES)
     details = models.CharField(blank=True, null=True)
-    # to_profile = models.ForeignKey(PlattypusUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
+
+    def save(self, *args, **kwargs):
+        result = super().save(*args, **kwargs)
+        return result
 
 
 class Expense(models.Model):
@@ -58,4 +68,13 @@ class Expense(models.Model):
     category = models.CharField(choices=EXPENSE_CHOICES)
     date = models.DateField()
     details = models.CharField(blank=True, null=True)
-    # to_profile = models.ForeignKey(PlattypusUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
+
+    def save(self, *args, **kwargs):
+        result = super().save(*args, **kwargs)
+        return result
+
+# Todo: Add upcoming expenses model, which will not subtract from the balance until the given date in the future

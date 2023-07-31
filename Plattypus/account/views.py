@@ -1,6 +1,7 @@
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import Sum
 from django.shortcuts import redirect
 from django.templatetags.static import static
 from django.urls import reverse_lazy
@@ -8,6 +9,7 @@ from django.views.generic import DeleteView, CreateView, DetailView, UpdateView
 from .forms import RegisterUserForm, EditProfileForm
 from django.views.generic import TemplateView
 from .models import PlattypusUser
+from ..finances.models import Income, Expense
 
 UserModel = get_user_model()
 
@@ -77,14 +79,17 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
 
-        pk = self.kwargs.get('pk')
+        incomes = Income.objects.filter(user=user)
+        total_incomes = incomes.aggregate(Sum('amount'))['amount__sum'] or 0
 
-        try:
-            user = PlattypusUser.objects.get(pk=pk)
-        except PlattypusUser.DoesNotExist:
-            redirect('common/home.html')
-        else:
-            context['user'] = user
+        expenses = Expense.objects.filter(user=user)
+        total_expenses = expenses.aggregate(Sum('amount'))['amount__sum'] or 0
+
+        balance = total_incomes - total_expenses
+
+        context['user'] = user
+        context['balance'] = balance
 
         return context
