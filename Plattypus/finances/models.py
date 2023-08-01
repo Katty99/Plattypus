@@ -30,7 +30,7 @@ class Income(models.Model):
     amount = models.FloatField()
     currency = models.CharField(choices=CURRENCIES)
     date = models.DateField()
-    source = models.CharField(choices=INCOME_SOURCES)
+    category = models.CharField(choices=INCOME_SOURCES)
     details = models.CharField(blank=True, null=True)
     user = models.ForeignKey(
         UserModel,
@@ -77,4 +77,17 @@ class Expense(models.Model):
         result = super().save(*args, **kwargs)
         return result
 
-# Todo: Add upcoming expenses model, which will not subtract from the balance until the given date in the future
+
+class Savings(models.Model):
+    goal_name = models.CharField(max_length=100)
+    target_amount = models.FloatField()
+    current_amount = models.FloatField(default=0)
+    target_date = models.DateField()
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        result = super().save(*args, **kwargs)
+        return result
+
+    def __str__(self):
+        return self.goal_name

@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('Plattypus.common.urls')),
     path('accounts/', include('Plattypus.account.urls')),
     path('finances/', include('Plattypus.finances.urls')),
+    path('notes/', include('Plattypus.notes.urls')),
 ]

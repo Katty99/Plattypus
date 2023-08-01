@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'Plattypus.account',
     'Plattypus.common',
     'Plattypus.finances',
+    'Plattypus.notes',
 ]
 
 MIDDLEWARE = [

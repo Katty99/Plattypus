@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes View</title>
+</head>
+<body>
+    <h1>Notes View</h1>
+    <ul>
+        {% for note in notes %}
+            <li>{{ note.subject }}</li>
+            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'note_details' pk=note.pk %}">
+                                    <i class="bi-gear me-2"></i>
+                                    Note Details
+                                </a>
+                            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
