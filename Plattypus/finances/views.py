@@ -102,7 +102,7 @@ class TransactionDeleteView(LoginRequiredMixin, DeleteView):
         transaction_pk = self.kwargs.get('pk')
         user = self.request.user
         transaction = get_object_or_404(Income, pk=transaction_pk, user=user) or \
-            get_object_or_404(Expense, pk=transaction_pk, user=user)
+                      get_object_or_404(Expense, pk=transaction_pk, user=user)
         return transaction
 
     def get_context_data(self, **kwargs):
@@ -156,3 +156,53 @@ class AddSavingsView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class SavingsView(LoginRequiredMixin, DetailView):
+    template_name = 'account/dashboard.html'
+    context_object_name = 'savings'
+
+    def get_queryset(self):
+        user = self.request.user
+        savings = Savings.objects.filter(user=user)
+        return savings
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['user'] = user
+
+        return context
+
+
+class EditSavingsView(LoginRequiredMixin, UpdateView):
+    template_name = 'finances/edit_savings.html'
+    form_class = SavingsForm
+    success_url = reverse_lazy('dashboard')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = Savings(user=self.request.user)
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class DeleteSavingsView(LoginRequiredMixin, DeleteView):
+    template_name = 'finances/delete_savings.html'
+    form_class = SavingsForm
+    success_url = reverse_lazy('dashboard')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = Savings(user=self.request.user)
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['user'] = user
+
+        return context

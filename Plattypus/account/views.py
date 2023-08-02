@@ -14,19 +14,14 @@ from ..finances.models import Income, Expense
 UserModel = get_user_model()
 
 
-class ProfileDetailsView(DetailView):
+class ProfileDetailsView(LoginRequiredMixin, DetailView):
     template_name = 'account/profile-page.html'
     model = UserModel
 
     profile_picture = static('images/platypus.png')
 
-    def get_profile_image(self):
-        if self.object.profile_picture is not None:
-            return self.object.profile_picture
-        return self.profile_picture
 
-
-class ProfileEditView(UpdateView):
+class ProfileEditView(LoginRequiredMixin, UpdateView):
     form_class = EditProfileForm
     model = PlattypusUser
     template_name = 'account/edit-profile.html'
@@ -35,7 +30,7 @@ class ProfileEditView(UpdateView):
         return reverse_lazy('profile_details', kwargs={'pk': self.object.pk})
 
 
-class ProfileDeleteView(DeleteView):
+class ProfileDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'account/delete-profile.html'  # Replace with your actual template name
     success_url = reverse_lazy('index')  # Replace 'home' with your desired success URL name
 
