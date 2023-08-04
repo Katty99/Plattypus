@@ -9,7 +9,8 @@ from django.views.generic import DeleteView, CreateView, DetailView, UpdateView
 from .forms import RegisterUserForm, EditProfileForm
 from django.views.generic import TemplateView
 from .models import PlattypusUser
-from ..finances.models import Income, Expense
+from ..finances.models import Income, Expense, Savings
+from ..notes.models import Notes
 
 UserModel = get_user_model()
 
@@ -84,7 +85,23 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         balance = total_incomes - total_expenses
 
+        notes = Notes.objects.filter(sender=user).order_by('-timestamp')[:3]
+
+        savings = Savings.objects.filter(user=user)
+
+        expense_categories = [i[0] for i in Expense.EXPENSE_CHOICES]
+        category_percentages = {}
+
+        for category in expense_categories:
+            category_expenses = Expense.objects.filter(user=user, category=category)
+            category_total = category_expenses.aggregate(Sum('amount'))['amount__sum'] or 0
+            category_percentage = (category_total / total_expenses) * 100 if total_expenses != 0 else 0
+            category_percentages[category] = round(category_percentage, 2)
+
+        context['category_percentages'] = category_percentages
         context['user'] = user
         context['balance'] = balance
+        context['notes'] = notes
+        context['savings'] = savings
 
         return context

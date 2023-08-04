@@ -29,8 +29,8 @@ class Income(models.Model):
     ]
     amount = models.FloatField()
     currency = models.CharField(choices=CURRENCIES)
-    date = models.DateField()
     category = models.CharField(choices=INCOME_SOURCES)
+    date = models.DateField()
     details = models.CharField(blank=True, null=True)
     user = models.ForeignKey(
         UserModel,

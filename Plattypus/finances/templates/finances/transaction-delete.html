@@ -1,20 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Transaction Delete</title>
-    <body>
-        <h1>Transaction Delete</h1>
-        <h2>Are you sure you want to delete this transaction?</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">
-                Submit
-            </button>
-        </form>
-    </body>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+    <div class="title-group mb-3">
+        <h1 class="h2 mb-0">Delete Transaction</h1>
+    </div>
 
-</body>
-</html>
+    <div class="row my-4">
+        <div class="col-lg-12 col-12">
+            <div class="custom-block custom-block-transation-detail bg-white">
+
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="custom-block-transation-detail-item mt-4">
+                        <h6>Transation Amount</h6>
+
+                        <p>{{ transaction.amount }}</p>
+                    </div>
+
+                    <div class="custom-block-transation-detail-item mt-4 mx-auto px-4">
+                        <h6>Description</h6>
+
+                        <p>{{ transaction.details }}</p>
+                    </div>
+
+                    <div class="custom-block-transation-detail-item mt-4 ms-lg-auto px-lg-3 px-md-3">
+                        <h6>Transaction Currency</h6>
+
+                        <p>{{ transaction.currency }}</p>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete Transaction</button>
+                        <a href="{% url 'all_transactions' %}" class="btn btn-secondary ms-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

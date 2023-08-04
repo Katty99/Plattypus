@@ -79,14 +79,21 @@ Bootstrap 5 Dashboard Admin Template
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="{% url 'dashboard'  %}">
                                     <i class="bi-house-fill me-2"></i>
-                                    Overview
+                                    Dashboard
                                 </a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'all_transactions' %}">
                                     <i class="bi-wallet me-2"></i>
-                                    My Wallet
+                                    Transactions
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'all_notes' %}">
+                                    <i class="bi-stickies me-2"></i>
+                                    Notes
                                 </a>
                             </li>
 
@@ -100,14 +107,7 @@ Bootstrap 5 Dashboard Admin Template
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'profile_edit' pk=user.pk %}">
                                     <i class="bi-gear me-2"></i>
-                                    Settings
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'create_note' %}">
-                                    <i class="bi-question-circle me-2"></i>
-                                    Send Note
+                                    Edit Profile
                                 </a>
                             </li>
                         <li class="nav-item border-top mt-auto pt-2">
@@ -143,12 +143,12 @@ Bootstrap 5 Dashboard Admin Template
 
         <script type="text/javascript">
             var options = {
-              series: [13, 43, 22],
+              series: Object.values({{ category_percentages|safe }}),
               chart: {
               width: 380,
               type: 'pie',
             },
-            labels: ['Balance', 'Expense', 'Credit Loan',],
+            labels: Object.keys({{ category_percentages|safe }}),
             responsive: [{
               breakpoint: 480,
               options: {

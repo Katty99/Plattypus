@@ -1,22 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes View</title>
-</head>
-<body>
-    <h1>Notes View</h1>
-    <ul>
-        {% for note in notes %}
-            <li>{{ note.subject }}</li>
-            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'note_details' pk=note.pk %}">
-                                    <i class="bi-gear me-2"></i>
-                                    Note Details
-                                </a>
-                            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+                <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+                    <div class="title-group mb-3">
+                        <h1 class="h2 mb-0">Notes</h1>
+                    </div>
+
+                    <div class="row my-4">
+                        <div class="col-lg-12 col-12">
+                            <div class="custom-block bg-white">
+                                <h5 class="mb-4">Account Activities</h5>
+
+                                <div class="table-responsive">
+                                    <table class="account-table table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Date</th>
+
+{#                                                <th scope="col">Time</th>#}
+
+                                                <th scope="col">Sender</th>
+
+                                                <th scope="col">Recipient</th>
+
+                                                <th scope="col">Subject</th>
+
+                                                <th scope="col">Details</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for note in notes %}
+                                            <tr>
+                                                <td scope="row">{{ note.timestamp }}</td>
+
+                                                <td scope="row">{{ note.sender }}</td>
+
+                                                <td scope="row">{{ note.recipient }}</td>
+
+                                                <td scope="row">{{ note.subject }}</td>
+                                                <td scope="row">
+                                                    <a href="{% url 'note_details' pk=note.pk %}">
+                                                      Note Details
+                                                    </a>
+                                                  </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center mb-0">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">Prev</span>
+                                                </a>
+                                            </li>
+
+                                            <li class="page-item active" aria-current="page">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">2</a>
+                                            </li>
+                                            
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">3</a>
+                                            </li>
+
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">4</a>
+                                            </li>
+                                            
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true">Next</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                            </div>
+                        </div>
+                    </div>
+
+                </main>
+
+{% endblock %}

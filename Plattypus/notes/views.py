@@ -14,7 +14,7 @@ class NotesListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        notes = Notes.objects.filter(recipient=user)
+        notes = Notes.objects.filter(recipient=user).order_by('-timestamp')
         context['user'] = user
         context['notes'] = notes
         return context
@@ -51,6 +51,7 @@ class NoteDetailsView(LoginRequiredMixin, DetailView):
 class NoteDeleteView(LoginRequiredMixin, DeleteView):
     model = Notes
     template_name = 'notes/delete_note.html'
+    success_url = reverse_lazy('all_notes')
     context_object_name = 'note'
 
     def get_context_data(self, **kwargs):

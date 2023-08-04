@@ -1,20 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Expense</title>
-</head>
-    <body>
-        <h1>Add Expense</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">
-                Submit
-            </button>
-        </form>
-</body>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+    <div class="title-group mb-3">
+        <h1 class="h2 mb-0">Add Expense</h1>
+    </div>
 
-</body>
-</html>
+    <div class="row my-4">
+        <div class="col-lg-7 col-12">
+            <!-- Add your registration form here -->
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <div class="invalid-feedback">
+                        {{ field.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Add Expense</button>
+            </form>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="img-box">
+                        <img src="{% static 'images/platypus.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

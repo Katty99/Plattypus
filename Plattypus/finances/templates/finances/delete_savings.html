@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+    <div class="title-group mb-3">
+        <h1 class="h2 mb-0">Delete Savings</h1>
+    </div>
+
+    <div class="row my-4">
+        <div class="col-lg-12 col-12">
+            <div class="custom-block custom-block-transation-detail bg-white">
+
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="custom-block-transation-detail-item mt-4">
+                        <h6>Goal Name</h6>
+                        <p>{{ savings.goal_name }}</p>
+                    </div>
+                    <div class="custom-block-transation-detail-item mt-4 mx-auto px-4">
+                        <h6>Target Amount</h6>
+                        <p>{{ savings.target_amount }}</p>
+                    </div>
+                    <div class="custom-block-transation-detail-item mt-4 ms-lg-auto px-lg-3 px-md-3">
+                        <h6>Current Amount</h6>
+                        <p>{{ savings.current_amount }}</p>
+                    </div>
+                    <div class="custom-block-transation-detail-item mt-4 ms-lg-auto px-lg-3 px-md-3">
+                        <h6>Target Date</h6>
+                        <p>{{ savings.target_date }}</p>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete Note</button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-secondary ms-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -101,9 +101,23 @@ class TransactionDeleteView(LoginRequiredMixin, DeleteView):
     def get_object(self, queryset=None):
         transaction_pk = self.kwargs.get('pk')
         user = self.request.user
-        transaction = get_object_or_404(Income, pk=transaction_pk, user=user) or \
-                      get_object_or_404(Expense, pk=transaction_pk, user=user)
+
+        try:
+            transaction = Income.objects.get(pk=transaction_pk, user=user)
+        except Income.DoesNotExist:
+            transaction = get_object_or_404(Expense, pk=transaction_pk, user=user)
+
         return transaction
+
+    def get_form(self, form_class=None):
+        transaction = self.get_object()
+
+        if isinstance(transaction, Income):
+            return BudgetIncomeForm(**self.get_form_kwargs())
+        elif isinstance(transaction, Expense):
+            return BudgetExpenseForm(**self.get_form_kwargs())
+
+        return super().get_form(form_class)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -203,6 +217,8 @@ class DeleteSavingsView(LoginRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
+        savings = Savings.objects.get(user=user)
         context['user'] = user
+        context['savings'] = savings
 
         return context
