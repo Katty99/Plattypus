@@ -2,7 +2,7 @@ from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Sum
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, CreateView, DetailView, UpdateView
@@ -13,6 +13,19 @@ from ..finances.models import Income, Expense, Savings
 from ..notes.models import Notes
 
 UserModel = get_user_model()
+
+
+def calculate_categories_percentages(user, total_expenses):
+    expense_categories = [i[0] for i in Expense.EXPENSE_CHOICES]
+    category_percentages = {}
+
+    for category in expense_categories:
+        category_expenses = Expense.objects.filter(user=user, category=category)
+        category_total = category_expenses.aggregate(Sum('amount'))['amount__sum'] or 0
+        category_percentage = (category_total / total_expenses) * 100 if total_expenses != 0 else 0
+        category_percentages[category] = round(category_percentage, 2)
+
+    return category_percentages
 
 
 class ProfileDetailsView(LoginRequiredMixin, DetailView):
@@ -89,16 +102,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         savings = Savings.objects.filter(user=user)
 
-        expense_categories = [i[0] for i in Expense.EXPENSE_CHOICES]
-        category_percentages = {}
-
-        for category in expense_categories:
-            category_expenses = Expense.objects.filter(user=user, category=category)
-            category_total = category_expenses.aggregate(Sum('amount'))['amount__sum'] or 0
-            category_percentage = (category_total / total_expenses) * 100 if total_expenses != 0 else 0
-            category_percentages[category] = round(category_percentage, 2)
-
-        context['category_percentages'] = category_percentages
+        context['category_percentages'] = calculate_categories_percentages(user, total_expenses)
         context['user'] = user
         context['balance'] = balance
         context['notes'] = notes

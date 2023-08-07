@@ -15,7 +15,35 @@ class RegisterUserForm(auth_forms.UserCreationForm):
     class Meta:
         model = UserModel
         fields = ['first_name', 'last_name', 'username', 'date_of_birth', 'email', 'password1', 'password2',
-                  'profile_picture']
+                  'profile_picture', 'gender']
+        widgets = {
+            'first_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter first name',
+                }
+            ),
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter last name',
+                }
+            ),
+            'username': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter username',
+                }
+            ),
+            'email': forms.EmailInput(
+                attrs={
+                    'placeholder': 'Enter email address',
+                }
+            ),
+            'date_of_birth': forms.DateInput(
+                attrs={
+                    'placeholder': 'YYYY-MM-DD',
+                    'min': '1920-01-01',
+                }
+            ),
+        }
 
     def save(self, commit=True):
         result = super().save(commit)
@@ -58,6 +86,7 @@ class EditProfileForm(forms.ModelForm):
             ),
             'date_of_birth': forms.DateInput(
                 attrs={
+                    'placeholder': 'YYYY-MM-DD',
                     'min': '1920-01-01',
                 }
             )
