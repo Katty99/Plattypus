@@ -16,5 +16,3 @@ urlpatterns = [
         path('delete/', ProfileDeleteView.as_view(), name='profile_delete'),
     ]))
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

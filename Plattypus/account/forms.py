@@ -14,7 +14,8 @@ class LoginUserForm(auth_forms.AuthenticationForm):
 class RegisterUserForm(auth_forms.UserCreationForm):
     class Meta:
         model = UserModel
-        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'profile_picture']
+        fields = ['first_name', 'last_name', 'username', 'date_of_birth', 'email', 'password1', 'password2',
+                  'profile_picture']
 
     def save(self, commit=True):
         result = super().save(commit)
@@ -65,7 +66,6 @@ class EditProfileForm(forms.ModelForm):
 
 class DeleteProfileForm(forms.ModelForm):
     def save(self, commit=True):
-        # Todo: insert incomes and expenses deletion
         self.instance.delete()
 
         return self.instance

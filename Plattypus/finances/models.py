@@ -82,6 +82,7 @@ class Savings(models.Model):
     goal_name = models.CharField(max_length=100)
     target_amount = models.FloatField()
     current_amount = models.FloatField(default=0)
+    currency = models.CharField(choices=CURRENCIES)
     target_date = models.DateField()
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
 

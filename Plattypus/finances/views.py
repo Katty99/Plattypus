@@ -109,23 +109,6 @@ class TransactionDeleteView(LoginRequiredMixin, DeleteView):
 
         return transaction
 
-    def get_form(self, form_class=None):
-        transaction = self.get_object()
-
-        if isinstance(transaction, Income):
-            return BudgetIncomeForm(**self.get_form_kwargs())
-        elif isinstance(transaction, Expense):
-            return BudgetExpenseForm(**self.get_form_kwargs())
-
-        return super().get_form(form_class)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        context['user'] = user
-
-        return context
-
 
 class AddExpenseView(LoginRequiredMixin, CreateView):
     template_name = 'finances/add_expense.html'
@@ -194,31 +177,22 @@ class EditSavingsView(LoginRequiredMixin, UpdateView):
     form_class = SavingsForm
     success_url = reverse_lazy('dashboard')
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['instance'] = Savings(user=self.request.user)
-        return kwargs
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    def get_queryset(self):
+        savings_pk = self.kwargs.get('pk')
+        user = self.request.user
+        savings = Savings.objects.filter(user=user, pk=savings_pk)
+        return savings
 
 
 class DeleteSavingsView(LoginRequiredMixin, DeleteView):
     template_name = 'finances/delete_savings.html'
-    form_class = SavingsForm
+    context_object_name = 'savings'
     success_url = reverse_lazy('dashboard')
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['instance'] = Savings(user=self.request.user)
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_object(self, queryset=None):
+        savings_pk = self.kwargs.get('pk')
         user = self.request.user
-        savings = Savings.objects.get(user=user)
-        context['user'] = user
-        context['savings'] = savings
 
-        return context
+        savings = get_object_or_404(Savings, pk=savings_pk, user=user)
+
+        return savings

@@ -2,7 +2,7 @@ from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Sum
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, CreateView, DetailView, UpdateView
@@ -32,8 +32,8 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
 
 
 class ProfileDeleteView(LoginRequiredMixin, DeleteView):
-    template_name = 'account/delete-profile.html'  # Replace with your actual template name
-    success_url = reverse_lazy('index')  # Replace 'home' with your desired success URL name
+    template_name = 'account/delete-profile.html'
+    success_url = reverse_lazy('index')
 
 
 class ProfileCreateView(CreateView):
@@ -85,7 +85,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         balance = total_incomes - total_expenses
 
-        notes = Notes.objects.filter(sender=user).order_by('-timestamp')[:3]
+        notes = Notes.objects.filter(recipient=user).order_by('-timestamp')[:3]
 
         savings = Savings.objects.filter(user=user)
 

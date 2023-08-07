@@ -8,7 +8,7 @@
 
                     <div class="row my-4">
                         <div class="col-lg-7 col-12">
-                            <form method="post" class="needs-validation" novalidate>
+                            <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
                                 {% csrf_token %}
                                 {% for field in form %}
                                     <div class="mb-3">

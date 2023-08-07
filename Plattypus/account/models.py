@@ -2,6 +2,8 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 from django.db.models import Sum
 from django.contrib.auth import models as auth_models
+from django.utils.safestring import mark_safe
+
 from Plattypus.account.validators import minimum_age_validator
 
 
@@ -39,7 +41,7 @@ class PlattypusUser(auth_models.AbstractUser, auth_models.PermissionsMixin):
     )
 
     profile_picture = models.ImageField(
-        upload_to='media/images',
+        upload_to='images',
         null=True,
         blank=True,
     )
