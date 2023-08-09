@@ -9,6 +9,7 @@ from django.views.generic import DeleteView, CreateView, DetailView, UpdateView
 from .forms import RegisterUserForm, EditProfileForm
 from django.views.generic import TemplateView
 from .models import PlattypusUser
+from .utils import get_exchange_rates
 from ..finances.models import Income, Expense, Savings
 from ..notes.models import Notes
 
@@ -102,6 +103,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         savings = Savings.objects.filter(user=user)
 
+        target_currencies = ['EUR', 'GBP', 'AUD', 'USD', 'BGN']
+        exchange_rates = get_exchange_rates(target_currencies)
+
+        context['exchange_rates'] = exchange_rates
+        context['target_currencies'] = target_currencies
         context['category_percentages'] = calculate_categories_percentages(user, total_expenses)
         context['user'] = user
         context['balance'] = balance

@@ -29,113 +29,25 @@
                             </div>
 
                             <div class="custom-block custom-block-exchange">
-                                <h5 class="mb-4">Exchange Rate</h5>
-
+                            <h5 class="mb-4">Exchange Rate</h5>
+                            {% for currency, rate in exchange_rates.conversion_rates.items %}
+                                {% if currency in target_currencies %}
                                 <div class="d-flex align-items-center border-bottom pb-3 mb-3">
+                                    <!-- Display currency, sell, and buy rates -->
                                     <div class="d-flex align-items-center">
-                                        <img src="{% static 'images/flag/united-states.png' %}" class="exchange-image img-fluid" alt="">
-
+                                        <img src="{% static 'images/flag/' %}{{ currency }}.png" class="exchange-image img-fluid" alt="">
                                         <div>
-                                            <p>USD</p>
-                                            <h6>1 US Dollar</h6>
+                                            <p>{{ currency }}</p>
+                                            <h6>1 {{ currency }}</h6>
                                         </div>
                                     </div>
-
                                     <div class="ms-auto me-4">
-                                        <small>Sell</small>
-                                        <h6>1.0931</h6>
-                                    </div>
-
-                                    <div>
-                                        <small>Buy</small>
-                                        <h6>1.0821</h6>
+                                        <h6>{{ rate }}</h6>
                                     </div>
                                 </div>
-
-                                <div class="d-flex align-items-center border-bottom pb-3 mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <img src="{% static 'images/flag/european-union.png' %}" class="exchange-image img-fluid" alt="">
-
-                                        <div>
-                                            <p>EUR</p>
-                                            <h6>1 Euro</h6>
-                                        </div>
-                                    </div>
-
-                                    <div class="ms-auto me-4">
-                                        <small>Sell</small>
-                                        <h6>0.6901</h6>
-                                    </div>
-
-                                    <div>
-                                        <small>Buy</small>
-                                        <h6>0.6201</h6>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex align-items-center border-bottom pb-3 mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <img src="{% static 'images/flag/united-kingdom.png' %}" class="exchange-image img-fluid" alt="">
-
-                                        <div>
-                                            <p>GBP</p>
-                                            <h6>1 British Pound</h6>
-                                        </div>
-                                    </div>
-
-                                    <div class="ms-auto me-4">
-                                        <small>Sell</small>
-                                        <h6>1.1520</h6>
-                                    </div>
-
-                                    <div>
-                                        <small>Buy</small>
-                                        <h6>1.1412</h6>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex align-items-center border-bottom pb-3 mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <img src="{% static 'images/flag/australia.png' %}" class="exchange-image img-fluid" alt="">
-
-                                        <div>
-                                            <p>AUD</p>
-                                            <h6>1 Australian Dollar</h6>
-                                        </div>
-                                    </div>
-
-                                    <div class="ms-auto me-4">
-                                        <small>Sell</small>
-                                        <h6>0.6110</h6>
-                                    </div>
-
-                                    <div>
-                                        <small>Buy</small>
-                                        <h6>0.5110</h6>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex align-items-center">
-                                    <div class="d-flex align-items-center">
-                                        <img src="{% static 'images/flag/bulgaria.png' %}" class="exchange-image img-fluid" alt="">
-
-                                        <div>
-                                            <p>BGN</p>
-                                            <h6>1 Lev</h6>
-                                        </div>
-                                    </div>
-
-                                    <div class="ms-auto me-4">
-                                        <small>Sell</small>
-                                        <h6>1.1020</h6>
-                                    </div>
-
-                                    <div>
-                                        <small>Buy</small>
-                                        <h6>1.1010</h6>
-                                    </div>
-                                </div>
-                            </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                         </div>
 
                         <div class="col-lg-5 col-12">

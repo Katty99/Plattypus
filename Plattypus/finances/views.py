@@ -13,7 +13,7 @@ from Plattypus.finances.models import Expense, Income, Savings
 class TransactionsView(LoginRequiredMixin, ListView):
     template_name = 'finances/history-page.html'
     context_object_name = 'transactions'
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         user = self.request.user
