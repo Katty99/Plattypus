@@ -1,20 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Transaction</title>
-</head>
-    <body>
-        <h1>Edit Transaction</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">
-                Submit
-            </button>
-        </form>
-</body>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+                <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+                    <div class="title-group mb-3">
+                        <h1 class="h2 mb-0">Edit Transaction</h1>
+                    </div>
 
-</body>
-</html>
+                    <div class="row my-4">
+                        <div class="col-lg-7 col-12">
+                            <form method="post" class="needs-validation" novalidate>
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <div class="mb-3">
+                                        {{ field.label_tag }}
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ field.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                <a href="{% url 'transaction_delete' pk=transaction.pk %}" class="btn btn-danger ms-2">Delete</a>
+                            </form>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class=" col-lg-10 mx-auto">
+                              <div class="img-box">
+                                <img src="{% static 'images/platypus.png' %}" alt="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </main>
+{% endblock %}

@@ -12,8 +12,11 @@
                             <div class="custom-block custom-block-transation-detail bg-white">
                                 <div class="d-flex flex-wrap align-items-center border-bottom pb-3 mb-3">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ note.sender.profile_picture.url }}" class="profile-image img-fluid" alt="">
-
+                                        {% if not note.sender.profile_picture %}
+                                            <img src="{% static 'images/profile/blank pfp.jpeg' %}" class="profile-image img-fluid" alt="">
+                                        {% else %}
+                                            <img src="{{ note.sender.profile_picture.url }}" class="profile-image img-fluid" alt="">
+                                        {% endif %}
                                         <div>
                                             <p>{{ note.subject }}</p>
 

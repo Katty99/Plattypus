@@ -10,13 +10,18 @@ class NotesListView(LoginRequiredMixin, ListView):
     model = Notes
     template_name = 'notes/notes_list.html'
     context_object_name = 'notes'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = self.request.user
+        notes = Notes.objects.filter(recipient=user).order_by('-timestamp')
+
+        return notes
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        notes = Notes.objects.filter(recipient=user).order_by('-timestamp')
         context['user'] = user
-        context['notes'] = notes
         return context
 
 
