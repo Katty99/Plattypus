@@ -46,6 +46,7 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
 
 
 class ProfileDeleteView(LoginRequiredMixin, DeleteView):
+    model = UserModel
     template_name = 'account/delete-profile.html'
     success_url = reverse_lazy('index')
 
